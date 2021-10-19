@@ -54,10 +54,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Category.cs" />
     <Compile Include="IdentityModels.cs" />
-    <Compile Include="Migrations\202110140136548_InitialMig.cs" />
-    <Compile Include="Migrations\202110140136548_InitialMig.Designer.cs">
-      <DependentUpon>202110140136548_InitialMig.cs</DependentUpon>
+    <Compile Include="Migrations\202110170247315_AddedCategories.cs" />
+    <Compile Include="Migrations\202110170247315_AddedCategories.Designer.cs">
+      <DependentUpon>202110170247315_AddedCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202110172337313_addedstar.cs" />
+    <Compile Include="Migrations\202110172337313_addedstar.Designer.cs">
+      <DependentUpon>202110172337313_addedstar.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Note.cs" />
@@ -68,8 +73,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202110140136548_InitialMig.resx">
-      <DependentUpon>202110140136548_InitialMig.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202110170247315_AddedCategories.resx">
+      <DependentUpon>202110170247315_AddedCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110172337313_addedstar.resx">
+      <DependentUpon>202110172337313_addedstar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

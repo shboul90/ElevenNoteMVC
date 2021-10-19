@@ -11,6 +11,7 @@ namespace ElevenNote.WebMVC.Controllers
 {               //first part of our path. (localhost:xxxxx/Note)
     public class NoteController : Controller
     {
+
         [Authorize]
         // GET: Note
                //return type //localhost:xxxxx/Note/Index.
@@ -26,7 +27,13 @@ namespace ElevenNote.WebMVC.Controllers
         // GET
         public ActionResult Create()
         {
-            return View();
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var service = CreateNoteService();
+            var viewModel = new NoteCreate();
+            
+            viewModel.Categories = service.CategoriesListItems();
+            ViewData["Categories"] = service.CategoriesListItems();
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -67,9 +74,13 @@ namespace ElevenNote.WebMVC.Controllers
                 new NoteEdit
                 {
                     NoteId = detail.NoteId,
+                    CategoryId = detail.CategoryId,
                     Title = detail.Title,
                     Content = detail.Content
                 };
+
+            ViewData["Categories"] = service.CategoriesListItems();
+
             return View(model);
         }
 

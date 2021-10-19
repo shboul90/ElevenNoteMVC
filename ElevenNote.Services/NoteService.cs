@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ElevenNote.Services
 {
@@ -17,12 +18,27 @@ namespace ElevenNote.Services
             _userId = userId;
         }
 
+        public IEnumerable<SelectListItem> CategoriesListItems()
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                IEnumerable<SelectListItem> catList = ctx.Categories.Select(category => new SelectListItem
+                {
+                    Text = category.Name,
+                    Value = category.CategoryId.ToString()
+                });
+
+                return catList.ToArray();
+            }
+        }
+
         public bool CreateNote(NoteCreate model)
         {
             var entity =
                 new Note()
                 {
                     OwnerId = _userId,
+                    CategoryId = model.CategoryId,
                     Title = model.Title,
                     Content = model.Content,
                     CreatedUtc = DateTimeOffset.Now
@@ -48,7 +64,9 @@ namespace ElevenNote.Services
                                 new NoteListItem
                                 {
                                     NoteId = e.NoteId,
+                                    CategoryId = e.CategoryId,
                                     Title = e.Title,
+                                    IsStarred = e.IsStarred,
                                     CreatedUtc = e.CreatedUtc
                                 }
                        );
@@ -69,6 +87,7 @@ namespace ElevenNote.Services
                     new NoteDetail
                     {
                         NoteId = entity.NoteId,
+                        CategoryId = entity.CategoryId,
                         Title = entity.Title,
                         Content = entity.Content,
                         CreatedUtc = entity.CreatedUtc,
@@ -85,7 +104,8 @@ namespace ElevenNote.Services
                     ctx
                         .Notes
                         .Single(e => e.NoteId == model.NoteId && e.OwnerId == _userId);
-
+                
+                entity.CategoryId = model.CategoryId;
                 entity.Title = model.Title;
                 entity.Content = model.Content;
                 entity.ModifiedUtc = DateTimeOffset.Now;
